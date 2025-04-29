@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace To_Do.Model.Entities
 {
-    internal class ToDo
+    public class ToDo
     {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public bool IsComplete { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

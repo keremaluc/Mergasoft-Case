@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "To-Do.Repositories", "To-Do.Repositories\To-Do.Repositories.csproj", "{F4BBBF6E-E8B0-4C74-B4B7-CA1770D3659A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "To-Do.Repository", "To-Do.Repositories\To-Do.Repository.csproj", "{F4BBBF6E-E8B0-4C74-B4B7-CA1770D3659A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "To-Do.Services", "To-Do.Services\To-Do.Services.csproj", "{1043FDF2-2721-4A1F-A534-84B5530E943C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "To-Do.Service", "To-Do.Services\To-Do.Service.csproj", "{1043FDF2-2721-4A1F-A534-84B5530E943C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "To-Do.API", "To-Do.API\To-Do.API.csproj", "{30ED3B37-8351-46B0-AE24-95CA99E4417B}"
 EndProject
