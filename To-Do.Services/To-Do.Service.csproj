@@ -21,4 +21,9 @@
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\To-Do.Model\To-Do.Model.csproj" />
+    <ProjectReference Include="..\To-Do.Repositories\To-Do.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

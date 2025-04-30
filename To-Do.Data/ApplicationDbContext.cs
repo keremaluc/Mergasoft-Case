@@ -8,8 +8,13 @@ using To_Do.Model.Entities;
 
 namespace To_Do.Data
 {
-    public class ApplicationDbContext
+    public class ApplicationDbContext : DbContext
     {
-        public DbSet<ToDo> ToDos { get; set; }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+        {
+        }
+
+        public DbSet<ToDoItem> ToDos { get; set; }
     }
 }
