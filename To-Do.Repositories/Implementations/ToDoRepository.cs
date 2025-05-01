@@ -21,7 +21,7 @@ namespace To_Do.Repository.Implementations
 
         public async Task<IEnumerable<ToDoItem>> GetAllAsync()
         {
-            return await _dbContext.ToDos.ToListAsync();
+            return await _dbContext.ToDos.Where(x=>!x.IsDeleted).ToListAsync();
         }
 
         public async Task<ToDoItem?> GetByIdAsync(int id)
@@ -41,10 +41,14 @@ namespace To_Do.Repository.Implementations
             var item = await _dbContext.ToDos.FindAsync(id);
             if (item == null) return false;
 
-            _dbContext.ToDos.Remove(item);
+            item.IsDeleted = true;
+            item.UpdatedAt = DateTime.UtcNow;
+
+            _dbContext.ToDos.Update(item);
             await _dbContext.SaveChangesAsync();
             return true;
         }
+
 
         public async Task<bool> UpdateAsync(ToDoItem item)
         {

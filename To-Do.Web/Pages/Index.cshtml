@@ -2,16 +2,13 @@
 @using To_Do.Model.Enums
 @model IndexModel
 
-
 <div class="container-xxl flex-grow-1 container-p-y">
     <hr class="my-12">
 
     <ul class="nav nav-pills mb-4" role="tablist">
-
         <li class="nav-item" role="presentation">
-            <button type="button" class="btn rounded-pill btn-success waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">+ Ekle</button>
+            <button type="button" class="btn rounded-pill btn-success waves-effect waves-light" onclick="openCreateModal()">+ Ekle</button>
         </li>
-
     </ul>
 
     <!-- Hoverable Table rows -->
@@ -27,10 +24,9 @@
                         <th>Tamamlanma Durumu</th>
                         <th>Oluşturulma Tarihi</th>
                         <th>Düzenlenme Tarihi</th>
-                        <th>Actions</th>
+                        <th>İşlemler</th>
                     </tr>
                 </thead>
-
                 <tbody class="table-border-bottom-0">
                     @foreach (var item in Model.ToDoItems)
                     {
@@ -51,8 +47,6 @@
                                     <span class="badge rounded-pill bg-danger">@item.Priority</span>
                                 }
                             </td>
-
-
                             <td>
                                 @if (item.IsCompleted)
                                 {
@@ -63,56 +57,140 @@
                                     <span class="badge bg-label-warning">Beklemede</span>
                                 }
                             </td>
-
                             <td>@item.CreatedAt</td>
                             <td>@(item.UpdatedAt.HasValue ? item.UpdatedAt.Value.ToString("g") : "-")</td>
                             <td>
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#"><i class="ri-pencil-line me-1"></i> Düzenle</a>
-                                        <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line me-1"></i> Sil</a>
+                                        <a class="dropdown-item" href="#" onclick='openEditModal(@Html.Raw(Json.Serialize(item)))'><i class="ri-pencil-line me-1"></i> Düzenle</a>
+                                        <a class="dropdown-item" href="#" onclick='openDeleteModal(@item.Id)'><i class="ri-delete-bin-6-line me-1"></i> Sil</a>
                                     </div>
                                 </div>
                             </td>
-
                         </tr>
                     }
                 </tbody>
-
-
             </table>
         </div>
     </div>
     <!--/ Hoverable Table rows -->
     <hr class="my-12">
-
 </div>
 
-@* @section Scripts {
+<!-- Ekle/Düzenle Modal -->
+<div class="modal fade" id="todoModal" tabindex="-1" aria-labelledby="todoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form id="todoForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="todoModalLabel">Görev</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="todoId" />
+                    <div class="mb-3">
+                        <label class="form-label">Başlık</label>
+                        <input type="text" class="form-control" id="title" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Açıklama</label>
+                        <textarea class="form-control" id="description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Öncelik</label>
+                        <select class="form-select" id="priority">
+                            <option value="0">Düşük</option>
+                            <option value="1">Orta</option>
+                            <option value="2">Yüksek</option>
+                        </select>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="isCompleted">
+                        <label class="form-check-label" for="isCompleted">Tamamlandı</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Silme Onayı Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Silme Onayı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Bu görevi silmek istediğinize emin misiniz?
+                <input type="hidden" id="deleteId" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirmDelete" class="btn btn-danger">Evet</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
     <script>
-        // Düzenle butonlarına tıklandığında
-        document.querySelectorAll('.edit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                fetch(`?handler=GetToDo&id=${id}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('EditingToDo_Id').value = data.id;
-                        document.getElementById('EditingToDo_Title').value = data.title;
-                        document.getElementById('EditingToDo_Description').value = data.description;
-                        document.getElementById('EditingToDo_Priority').value = data.priority;
-                        document.getElementById('EditingToDo_IsCompleted').checked = data.isCompleted;
-                    });
+        const apiBaseUrl = '@Model.Configuration["ApiBaseUrl"]';
+
+        function openEditModal(item) {
+            $('#todoId').val(item.id);
+            $('#title').val(item.title);
+            $('#description').val(item.description);
+            $('#priority').val(item.priority);
+            $('#isCompleted').prop('checked', item.isCompleted);
+            $('#todoModal').modal('show');
+        }
+
+        function openCreateModal() {
+            $('#todoForm')[0].reset();
+            $('#todoId').val('');
+            $('#isCompleted').prop('checked', false);
+            $('#todoModal').modal('show');
+        }
+
+        function openDeleteModal(id) {
+            $('#deleteId').val(id);
+            $('#deleteModal').modal('show');
+        }
+
+        $('#todoForm').submit(async function (e) {
+            e.preventDefault();
+            const id = $('#todoId').val();
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `${apiBaseUrl}/api/todo/${id}` : `${apiBaseUrl}/api/todo`;
+
+            const payload = {
+                id: id || 0,
+                title: $('#title').val(),
+                description: $('#description').val(),
+                priority: parseInt($('#priority').val()),
+                isCompleted: $('#isCompleted').is(':checked')
+            };
+
+            const response = await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
             });
+
+            if (response.ok) location.reload();
         });
 
-        // Sil butonlarına tıklandığında
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                document.getElementById('DeletingId').value = id;
-            });
+        $('#confirmDelete').click(async function () {
+            const id = $('#deleteId').val();
+            const response = await fetch(`${apiBaseUrl}/api/todo/${id}`, { method: 'DELETE' });
+            if (response.ok) location.reload();
         });
     </script>
-} *@
+}
