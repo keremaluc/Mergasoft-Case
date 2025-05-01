@@ -8,8 +8,8 @@ namespace To_Do.Model.Enums
 {
     public enum Priority
     {
-        Low = 0,
-        Medium = 1,
-        High = 2
+        Düşük = 0,
+        Orta = 1,
+        Yüksek = 2
     }
 }

@@ -19,9 +19,12 @@ namespace To_Do.Data.SeedData
             // Default verileri yeniden ekle
             var defaultItems = new List<ToDoItem>
     {
-        new ToDoItem { Title = "Projeyi başlat", Description = "İskelet yapıyı kur", IsCompleted = false, Priority = Priority.High },
-        new ToDoItem { Title = "AutoMapper ekle", Description = "DTO dönüşümlerini yap", IsCompleted = false, Priority = Priority.Medium },
-        new ToDoItem { Title = "Controller test et", Description = "Postman ile dene", IsCompleted = false, Priority = Priority.Low }
+        new ToDoItem { Title = "Projeyi başlat.", Description = "İskelet yapıyı kur", IsCompleted = true, Priority = Priority.Yüksek },
+        new ToDoItem { Title = "AutoMapper ekle.", Description = "DTO dönüşümlerini yap", IsCompleted = true, Priority = Priority.Orta },
+        new ToDoItem { Title = "Controller test et.", Description = "Postman ile dene", IsCompleted = false, Priority = Priority.Düşük },
+        new ToDoItem { Title = "To-Do uygulaması yap.", Description = "Mergasoft için ToDo uygulaması geliştir", IsCompleted = false, Priority = Priority.Yüksek },
+        new ToDoItem { Title = "Eğitim haritası çiz", Description = "Angular ve React öğren.", IsCompleted = false, Priority = Priority.Orta },
+        new ToDoItem { Title = "Test verisi.", Description = "Bu bir test verisidir.Bu bir test verisidir.", IsCompleted = true, Priority = Priority.Orta }
     };
 
             context.ToDos.AddRange(defaultItems);

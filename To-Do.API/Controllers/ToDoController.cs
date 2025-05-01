@@ -40,8 +40,11 @@ namespace To_Do.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateToDoDto dto)
         {
-            var updated = await _service.UpdateAsync(id, dto);
-            return updated ? NoContent() : NotFound();
+            var result = await _service.UpdateAsync(id, dto);
+            if (!result)
+                return NotFound();
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

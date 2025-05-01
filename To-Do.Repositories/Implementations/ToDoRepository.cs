@@ -48,12 +48,16 @@ namespace To_Do.Repository.Implementations
 
         public async Task<bool> UpdateAsync(ToDoItem item)
         {
-            var existing = await _dbContext.ToDos.FindAsync(item.Id);
-            if (existing == null) return false;
-
-            _dbContext.Entry(existing).CurrentValues.SetValues(item);
-            await _dbContext.SaveChangesAsync();
-            return true;
+            try
+            {
+                _dbContext.ToDos.Update(item);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

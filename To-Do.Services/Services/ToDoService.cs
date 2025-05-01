@@ -26,6 +26,7 @@ namespace To_Do.Service.Services
         public async Task<ToDoItemDto> CreateAsync(CreateToDoDto dto)
         {
             var entity = _mapper.Map<ToDoItem>(dto);
+
             var created = await _repository.AddAsync(entity);
             return _mapper.Map<ToDoItemDto>(created);
         }
@@ -50,10 +51,21 @@ namespace To_Do.Service.Services
         public async Task<bool> UpdateAsync(int id, UpdateToDoDto dto)
         {
             var existing = await _repository.GetByIdAsync(id);
-            if (existing == null) return false;
+            if (existing == null)
+                return false;
 
             _mapper.Map(dto, existing);
-            return await _repository.UpdateAsync(existing);
+            existing.UpdatedAt = DateTime.UtcNow;
+
+            try
+            {
+                return await _repository.UpdateAsync(existing);
+            }
+            catch
+            {
+                return false;
+            }
         }
+
     }
 }

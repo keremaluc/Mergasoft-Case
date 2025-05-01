@@ -1,10 +1,118 @@
 ﻿@page
+@using To_Do.Model.Enums
 @model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <hr class="my-12">
+
+    <ul class="nav nav-pills mb-4" role="tablist">
+
+        <li class="nav-item" role="presentation">
+            <button type="button" class="btn rounded-pill btn-success waves-effect waves-light" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">+ Ekle</button>
+        </li>
+
+    </ul>
+
+    <!-- Hoverable Table rows -->
+    <div class="card">
+        <h5 class="card-header">Yapılacaklar Listesi</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Açıklama</th>
+                        <th>Öncelik</th>
+                        <th>Tamamlanma Durumu</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Düzenlenme Tarihi</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody class="table-border-bottom-0">
+                    @foreach (var item in Model.ToDoItems)
+                    {
+                        <tr>
+                            <td>@item.Title</td>
+                            <td>@item.Description</td>
+                            <td>
+                                @if (item.Priority == Priority.Düşük)
+                                {
+                                    <span class="badge rounded-pill bg-secondary">@item.Priority</span>
+                                }
+                                else if (item.Priority == Priority.Orta)
+                                {
+                                    <span class="badge rounded-pill bg-warning">@item.Priority</span>
+                                }
+                                else
+                                {
+                                    <span class="badge rounded-pill bg-danger">@item.Priority</span>
+                                }
+                            </td>
+
+
+                            <td>
+                                @if (item.IsCompleted)
+                                {
+                                    <span class="badge bg-label-success">Tamamlandı</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-warning">Beklemede</span>
+                                }
+                            </td>
+
+                            <td>@item.CreatedAt</td>
+                            <td>@(item.UpdatedAt.HasValue ? item.UpdatedAt.Value.ToString("g") : "-")</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#"><i class="ri-pencil-line me-1"></i> Düzenle</a>
+                                        <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line me-1"></i> Sil</a>
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
+    <!--/ Hoverable Table rows -->
+    <hr class="my-12">
+
 </div>
+
+@* @section Scripts {
+    <script>
+        // Düzenle butonlarına tıklandığında
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                fetch(`?handler=GetToDo&id=${id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('EditingToDo_Id').value = data.id;
+                        document.getElementById('EditingToDo_Title').value = data.title;
+                        document.getElementById('EditingToDo_Description').value = data.description;
+                        document.getElementById('EditingToDo_Priority').value = data.priority;
+                        document.getElementById('EditingToDo_IsCompleted').checked = data.isCompleted;
+                    });
+            });
+        });
+
+        // Sil butonlarına tıklandığında
+        document.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                document.getElementById('DeletingId').value = id;
+            });
+        });
+    </script>
+} *@

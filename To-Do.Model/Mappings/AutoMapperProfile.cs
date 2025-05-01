@@ -16,6 +16,9 @@ namespace To_Do.Model.Mappings
             CreateMap<ToDoItem, ToDoItemDto>().ReverseMap();
             CreateMap<CreateToDoDto, ToDoItem>().ReverseMap();
             CreateMap<UpdateToDoDto, ToDoItem>().ReverseMap();
+            CreateMap<ToDoItem, ToDoItemDto>()
+            .ForMember(dest => dest.UpdatedAt,
+                       opt => opt.MapFrom(src => src.UpdatedAt));
         }
     }
 }

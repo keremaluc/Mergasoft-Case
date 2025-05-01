@@ -12,7 +12,7 @@ namespace To_Do.Model.DTOs
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public Priority Priority { get; set; } = Priority.Low;
+        public Priority Priority { get; set; }
 
     }
 }
