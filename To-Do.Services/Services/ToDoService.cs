@@ -55,7 +55,7 @@ namespace To_Do.Service.Services
                 return false;
 
             _mapper.Map(dto, existing);
-            existing.UpdatedAt = DateTime.UtcNow;
+            existing.UpdatedAt = DateTime.Now;
 
             try
             {

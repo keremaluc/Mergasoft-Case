@@ -42,7 +42,7 @@ namespace To_Do.Repository.Implementations
             if (item == null) return false;
 
             item.IsDeleted = true;
-            item.UpdatedAt = DateTime.UtcNow;
+            item.UpdatedAt = DateTime.Now;
 
             _dbContext.ToDos.Update(item);
             await _dbContext.SaveChangesAsync();
