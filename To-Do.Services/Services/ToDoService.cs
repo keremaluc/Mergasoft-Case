@@ -48,12 +48,11 @@ namespace To_Do.Service.Services
             return item == null ? null : _mapper.Map<ToDoItemDto>(item);
         }
 
-        public async Task<IEnumerable<ToDoItemDto>> SearchAsync(string term)
-        {
-            var results = await _repository.SearchAsync(term);
-            return _mapper.Map<IEnumerable<ToDoItemDto>>(results);
-        }
-
+        //public async Task<IEnumerable<ToDoItemDto>> SearchAsync(string term)
+        //{
+        //    var results = await _repository.SearchAsync(term);
+        //    return _mapper.Map<IEnumerable<ToDoItemDto>>(results);
+        //}
 
         public async Task<bool> UpdateAsync(int id, UpdateToDoDto dto)
         {

@@ -30,16 +30,15 @@ namespace To_Do.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] string term)
-        {
-            if (string.IsNullOrWhiteSpace(term) || term.Length < 3)
-                return BadRequest("Arama terimi en az 3 karakter olmalıdır.");
+        //[HttpGet("search")]
+        //public async Task<IActionResult> Search([FromQuery] string term)
+        //{
+        //    if (string.IsNullOrWhiteSpace(term) || term.Length < 3)
+        //        return BadRequest("Arama terimi en az 3 karakter olmalıdır.");
 
-            var result = await _service.SearchAsync(term);
-            return Ok(result);
-        }
-
+        //    var result = await _service.SearchAsync(term);
+        //    return Ok(result);
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateToDoDto dto)

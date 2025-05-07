@@ -14,7 +14,7 @@ namespace To_Do.Repository.Interfaces
         Task<ToDoItem> AddAsync(ToDoItem item);
         Task<bool> UpdateAsync(ToDoItem item);
         Task<bool> DeleteAsync(int id);
-        Task<IEnumerable<ToDoItem>> SearchAsync(string term);
+        //Task<IEnumerable<ToDoItem>> SearchAsync(string term);
 
     }
 }

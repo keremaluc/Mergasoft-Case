@@ -15,7 +15,7 @@
     <div class="card">
         <h5 class="card-header">Yapılacaklar Listesi</h5>
         <div class="table-responsive text-nowrap">
-            <table class="table table-hover">
+            <table id="todoTable" class="table table-hover display">
                 <thead>
                     <tr>
                         <th>Başlık</th>
@@ -140,6 +140,10 @@
 </div>
 
 @section Scripts {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
     <script>
         const apiBaseUrl = '@Model.Configuration["ApiBaseUrl"]';
 
@@ -192,5 +196,81 @@
             const response = await fetch(`${apiBaseUrl}/api/todo/${id}`, { method: 'DELETE' });
             if (response.ok) location.reload();
         });
+
+        $(document).ready(function () {
+            $('#todoTable').DataTable({
+                language: {
+                    search: "Ara:",
+                    lengthMenu: "Sayfa başına _MENU_ kayıt göster",
+                    zeroRecords: "Eşleşen kayıt bulunamadı",
+                    info: "_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor",
+                    infoEmpty: "Gösterilecek kayıt yok",
+                    infoFiltered: "(_MAX_ kayıt içerisinden filtrelendi)",
+                    paginate: {
+                        first: "İlk",
+                        last: "Son",
+                        next: "Sonraki",
+                        previous: "Önceki"
+                    }
+                }
+            });
+        });
     </script>
+    <style>
+        /* DataTable genel stil */
+        #todoTable {
+            font-size: 0.9rem;
+        }
+
+            #todoTable th,
+            #todoTable td {
+                padding: 0.75rem 1rem;
+                vertical-align: middle;
+            }
+
+            #todoTable th {
+                font-weight: 600;
+                background-color: #f8f9fa;
+                color: #495057;
+                border-bottom: 2px solid #dee2e6;
+            }
+
+            #todoTable td {
+                border-color: #e9ecef;
+            }
+
+            /* Hover efekti yumuşatma */
+            #todoTable tbody tr:hover {
+                background-color: #f1f3f5;
+            }
+
+        /* İçeriği hücreden uzaklaştırmak için biraz iç boşluk */
+        .dataTables_wrapper .dataTables_filter input {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.85rem;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            font-size: 0.85rem;
+        }
+
+        /* Sayfalama butonları */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.25rem 0.6rem;
+            margin: 2px;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.35em 0.6em;
+        }
+
+        /* Düşük padding’li dropdown buton */
+        .dropdown .btn {
+            padding: 0.25rem;
+        }
+    </style>
+
+}
+
 }
