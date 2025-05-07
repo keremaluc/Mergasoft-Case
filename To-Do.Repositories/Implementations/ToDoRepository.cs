@@ -49,6 +49,14 @@ namespace To_Do.Repository.Implementations
             return true;
         }
 
+        public async Task<IEnumerable<ToDoItem>> SearchAsync(string term)
+        {
+            return await _dbContext.ToDos
+                .Where(x => !x.IsDeleted &&
+                           (x.Title.ToLower().Contains(term.ToLower()) ||
+                            x.Description.ToLower().Contains(term.ToLower())))
+                .ToListAsync();
+        }
 
         public async Task<bool> UpdateAsync(ToDoItem item)
         {

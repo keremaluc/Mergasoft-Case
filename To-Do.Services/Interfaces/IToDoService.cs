@@ -14,6 +14,8 @@ namespace To_Do.Service.Interfaces
         Task<ToDoItemDto> CreateAsync(CreateToDoDto dto);
         Task<bool> UpdateAsync(int id, UpdateToDoDto dto);
         Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<ToDoItemDto>> SearchAsync(string term);
+
     }
 
 }
