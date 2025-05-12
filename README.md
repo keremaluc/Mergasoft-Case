@@ -1,14 +1,6 @@
 # 📝 To-Do API Uygulaması
 
-Bu proje, yapılacaklar listesi yönetimi sağlayan basit ama kurumsal standartlara uygun bir RESTful API uygulamasıdır. Uygulama ASP.NET Core Web API teknolojisi ile geliştirilmiştir.
-
-## 📌 Proje Amacı
-
-Bu proje, bir case çalışması kapsamında geliştirilmiş olup aşağıdaki hedefleri sağlamayı amaçlamaktadır:
-
-- Temiz, okunabilir ve sürdürülebilir bir mimariyle proje geliştirmek
-- Katmanlı yapı ile görev ayrımını net bir şekilde uygulamak
-- Güncel ve endüstri standartlarına uygun teknolojiler kullanmak
+Uygulamanın arka uç geliştirmesi ASP.NET Core Web API teknolojisi ile, ön uç geliştirmesi .Net Razor Pages teknolojisi ile geliştirildi.
 
 ## 🧱 Mimari Yapı
 
@@ -27,3 +19,7 @@ N katmanlı mimari kullanılarak, **Clean Architecture** prensiplerine dikkat ed
 - AutoMapper ile DTO-Entity dönüşümleri
 - Asenkron (async/await) veri işlemleri
 - Swagger/OpenAPI desteği (geliştirici testleri için)
+- Ayrıca proje indirildikten sonra olası veritabanı bağlantı hatalarının önüne geçmek için SQLite kullanılarak, DB projenin içine entegre edilmiştir.
+
+## ❕Uyarı
+- Projeyi lütfen API ve WEB katmanlarıyla birlikte çalıştırınız.
